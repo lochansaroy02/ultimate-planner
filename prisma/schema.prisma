@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+  email    String
+}
+
+model Plan {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+  years       Year[]
+}
+
+model Year {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  goal        String
+  isCompleted Boolean
+  months      Month[]
+  Plan        Plan?   @relation(fields: [planId], references: [id])
+  planId      Int?
+}
+
+model Month {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  goal        String
+  isCompleted Boolean
+  Year        Year?   @relation(fields: [yearId], references: [id])
+  yearId      Int?
+  weeks       Week[]
+}
+
+model Week {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  goal        String
+  isCompleted Boolean
+  Month       Month?  @relation(fields: [monthId], references: [id])
+  monthId     Int?
+  days        Day[]
+}
+
+model Day {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  goal        String
+  isCompleted Boolean
+  Week        Week?   @relation(fields: [weekId], references: [id])
+  weekId      Int?
+  tasks       Task[]
+}
+
+model Task {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  goal        String
+  isCompleted Boolean
+  Day         Day?    @relation(fields: [dayId], references: [id])
+  dayId       Int?
+}
