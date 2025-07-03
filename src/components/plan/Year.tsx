@@ -1,10 +1,15 @@
-import React from 'react'
+import Months from "./Months"
 
-const Year = ({ year }: any) => {
+const Year = (item: any) => {
     return (
-
         <div>
-            <h1>{ }</h1>
+            <div>
+                {
+                    item.months.map((month: any, index: number) => (
+                        <Months key={index} {...month} />
+                    ))
+                }
+            </div>
         </div>
     )
 }

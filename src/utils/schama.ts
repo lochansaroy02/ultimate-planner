@@ -1,6 +1,7 @@
 export const plan = [
     {
-        year: {
+        year:
+        {
             title: "2025",
             description: "this is dec",
             months: [

@@ -26,52 +26,67 @@ model Year {
   id          Int     @id @default(autoincrement())
   title       String
   description String
-  goal        String
-  isCompleted Boolean
-  months      Month[]
-  Plan        Plan?   @relation(fields: [planId], references: [id])
   planId      Int?
+  Plan        Plan?   @relation(fields: [planId], references: [id])
+  months      Month[]
+  goals       Goal[] // related goals for this year
 }
 
 model Month {
-  id          Int     @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   title       String
   description String
-  goal        String
-  isCompleted Boolean
-  Year        Year?   @relation(fields: [yearId], references: [id])
   yearId      Int?
+  Year        Year?  @relation(fields: [yearId], references: [id])
   weeks       Week[]
+  goals       Goal[] // related goals for this month
 }
 
 model Week {
-  id          Int     @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   title       String
   description String
-  goal        String
-  isCompleted Boolean
-  Month       Month?  @relation(fields: [monthId], references: [id])
   monthId     Int?
+  Month       Month? @relation(fields: [monthId], references: [id])
   days        Day[]
+  goals       Goal[] // related goals for this week
 }
 
 model Day {
-  id          Int     @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   title       String
   description String
-  goal        String
-  isCompleted Boolean
-  Week        Week?   @relation(fields: [weekId], references: [id])
   weekId      Int?
+  Week        Week?  @relation(fields: [weekId], references: [id])
   tasks       Task[]
+  goals       Goal[] // related goals for this day
 }
 
 model Task {
   id          Int     @id @default(autoincrement())
   title       String
   description String
-  goal        String
   isCompleted Boolean
-  Day         Day?    @relation(fields: [dayId], references: [id])
   dayId       Int?
+  Day         Day?    @relation(fields: [dayId], references: [id])
+}
+
+model Goal {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  isCompleted Boolean
+
+  // Optional foreign keys for each level
+  yearId Int?
+  Year   Year? @relation(fields: [yearId], references: [id])
+
+  monthId Int?
+  Month   Month? @relation(fields: [monthId], references: [id])
+
+  weekId Int?
+  Week   Week? @relation(fields: [weekId], references: [id])
+
+  dayId Int?
+  Day   Day? @relation(fields: [dayId], references: [id])
 }
