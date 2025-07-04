@@ -8,14 +8,14 @@ export const POST = async (req: NextRequest) => {
         const data = await req.json()
         const { title, description } = data;
 
-        const year = await prisma.year.create({
+        const month = await prisma.month.create({
             data: {
                 title, description
             }
         })
         return NextResponse.json({
-            message: "Year Goal Created",
-            data: year
+            message: "Month Goal Created",
+            data: month
         })
     } catch (error) {
         return NextResponse.json({ message: 'Internal Server Error', error: error })

@@ -8,14 +8,14 @@ export const POST = async (req: NextRequest) => {
         const data = await req.json()
         const { title, description } = data;
 
-        const year = await prisma.year.create({
+        const day = await prisma.day.create({
             data: {
                 title, description
             }
         })
         return NextResponse.json({
-            message: "Year Goal Created",
-            data: year
+            message: "day Goal Created",
+            data: day
         })
     } catch (error) {
         return NextResponse.json({ message: 'Internal Server Error', error: error })
@@ -25,6 +25,6 @@ export const POST = async (req: NextRequest) => {
 export const GET = (req: NextRequest) => {
 
     return NextResponse.json({
-        message: "This is the year route"
+        message: "This is the day route"
     })
 }

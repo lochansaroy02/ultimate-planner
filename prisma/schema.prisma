@@ -15,21 +15,12 @@ model User {
   email    String
 }
 
-model Plan {
-  id          Int    @id @default(autoincrement())
-  title       String
-  description String
-  years       Year[]
-}
-
 model Year {
   id          Int     @id @default(autoincrement())
   title       String
   description String
-  planId      Int?
-  Plan        Plan?   @relation(fields: [planId], references: [id])
   months      Month[]
-  goals       Goal[] // related goals for this year
+  goals       Goal[]
 }
 
 model Month {

@@ -1,21 +1,20 @@
 import prisma from "@/utils/prisma";
-import { body } from "framer-motion/client";
 import { NextRequest, NextResponse } from "next/server";
 
 
 export const POST = async (req: NextRequest) => {
     try {
         const data = await req.json()
-        const { title, description } = data;
+        const { title, description, isCompleted } = data;
 
-        const year = await prisma.year.create({
+        const goal = await prisma.goal.create({
             data: {
-                title, description
+                title, description, isCompleted
             }
         })
         return NextResponse.json({
-            message: "Year Goal Created",
-            data: year
+            message: "goal Goal Created",
+            data: goal
         })
     } catch (error) {
         return NextResponse.json({ message: 'Internal Server Error', error: error })
@@ -25,6 +24,6 @@ export const POST = async (req: NextRequest) => {
 export const GET = (req: NextRequest) => {
 
     return NextResponse.json({
-        message: "This is the year route"
+        message: "This is the goal route"
     })
 }
