@@ -10,6 +10,7 @@ interface ILablledInput {
 
 const LabelledInput = ({ lable, value, placeholder, type, onChange }: ILablledInput) => {
 
+    
 
     return (
         <div className='flex flex-col gap-1   '>

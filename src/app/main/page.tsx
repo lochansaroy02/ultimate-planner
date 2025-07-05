@@ -1,15 +1,20 @@
 "use client";
 import Template from '@/components/Template';
 import { Button } from '@/components/ui/Button';
+import LabelledInput from '@/components/ui/LabelledInput';
 import { useIsGoalStore } from '@/store/store';
 import { useEffect, useState } from 'react';
 
 const page = () => {
     const [year, setYear] = useState<String>("");
+    const [yearDecription, setYearDescription] = useState<string>("");
+    const [isDecription, setIsDescription] = useState<boolean>(false);
+
+
     const [month, setMonth] = useState<String>("");
     const [week, setWeek] = useState<String>("");
 
-    const [createYear, setCreateYear] = useState<boolean>(false)
+    const [isYear, setIsYear] = useState<boolean>(false)
     const [createMonth, setCreateMonth] = useState<boolean>(false)
     const [createWeek, setCreateWeek] = useState<boolean>(false)
     const [createDay, setCreateDay] = useState<boolean>(false)
@@ -36,8 +41,6 @@ const page = () => {
     const getDates = () => {
         const currentYear = now.getFullYear();
         const month = now.toLocaleString('default', { month: 'long' });
-
-        setYear(currentYear.toString())
         setMonth(month)
 
     }
@@ -48,27 +51,56 @@ const page = () => {
         getWeekOfMonth(now);
     }, [])
 
+    const createYearFunction = async () => {
+        const currentYear = now.getFullYear().toString();
+        setYear(currentYear)
+        setIsDescription(true)
+        // try {
+        //     const data = axios.post("", {
+        //         currentYear,
+
+        //     })
+
+        // } catch (error) {
+
+        // } finally {
+        //     setIsDescription(true)
+        // }
+    }
 
 
     return (
         <div className='w-screen'>
             <div className='mt-18 flex items-center   mx-24  flex-col'>
 
-                <h1 className='text-xl '>{year}</h1>
-                <div className=''>
-                    <Button onclick={() => {
-                        setCreateYear(true)
-                    }} variant='secondary' size='sm' text='create month' />
-                </div>
-            </div>
+                {!isYear ?
+                    <div className=''>
+                        <Button onclick={() => {
+                            setIsYear(true)
+                        }} variant='secondary' size='sm' text='Get Started' />
+                    </div> : <div>
+                        {isDecription ?
+                            <div>
+                                <h1>{year}</h1>
+                                <p>{yearDecription}</p>
+                            </div> :
+                            <div className='flex gap-2 items-center  p-2  bg-cyan-300'>
+                                <LabelledInput type='text' placeholder={`set Description for year : `} value={yearDecription} onChange={(e) => {
+                                    setYearDescription(e.target.value)
+                                }} />
+                                <Button text='add' variant='primary' size='sm' onclick={createYearFunction} />
+                            </div>
+                        }
 
+                    </div>
+                }
+            </div>
 
             <div className=' w-1/2 flex flex-col mt-2  items-start ml-12 ' >
 
                 <div className='mt-2  w-full    ml-4 px-4'>
-
                     {
-                        createYear && <Template isActive={createMonth} setIsActive={setCreateMonth} isGoal={isMonthGoal} setIsGoal={setIsMonthGoal} label={now.toLocaleString('default', { month: 'long' })} />
+                        isYear && <Template isActive={createMonth} setIsActive={setCreateMonth} isGoal={isMonthGoal} setIsGoal={setIsMonthGoal} label={now.toLocaleString('default', { month: 'long' })} />
                     }
                 </div>
 
@@ -85,7 +117,7 @@ const page = () => {
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
 
