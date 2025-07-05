@@ -9,14 +9,14 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  id       String @id @default(uuid())
   username String @unique
   password String
   email    String
 }
 
 model Year {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   title       String
   description String
   months      Month[]
@@ -24,60 +24,59 @@ model Year {
 }
 
 model Month {
-  id          Int    @id @default(autoincrement())
+  id          String  @id @default(uuid())
   title       String
   description String
-  yearId      Int?
-  Year        Year?  @relation(fields: [yearId], references: [id])
+  yearId      String? // Changed from Int? to String?
   weeks       Week[]
-  goals       Goal[] // related goals for this month
+  goals       Goal[]
+  Year        Year?   @relation(fields: [yearId], references: [id])
 }
 
 model Week {
-  id          Int    @id @default(autoincrement())
+  id          String  @id @default(uuid())
   title       String
   description String
-  monthId     Int?
-  Month       Month? @relation(fields: [monthId], references: [id])
+  monthId     String? // Changed from Int? to String?
+  Month       Month?  @relation(fields: [monthId], references: [id])
   days        Day[]
-  goals       Goal[] // related goals for this week
+  goals       Goal[]
 }
 
 model Day {
-  id          Int    @id @default(autoincrement())
+  id          String  @id @default(uuid())
   title       String
   description String
-  weekId      Int?
-  Week        Week?  @relation(fields: [weekId], references: [id])
+  weekId      String? // Changed from Int? to String?
+  Week        Week?   @relation(fields: [weekId], references: [id])
   tasks       Task[]
-  goals       Goal[] // related goals for this day
+  goals       Goal[]
 }
 
 model Task {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   title       String
   description String
   isCompleted Boolean
-  dayId       Int?
+  dayId       String? // Changed from Int? to String?
   Day         Day?    @relation(fields: [dayId], references: [id])
 }
 
 model Goal {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   title       String
   description String
   isCompleted Boolean
 
-  // Optional foreign keys for each level
-  yearId Int?
-  Year   Year? @relation(fields: [yearId], references: [id])
+  yearId String? // Changed from Int? to String?
+  Year   Year?   @relation(fields: [yearId], references: [id])
 
-  monthId Int?
-  Month   Month? @relation(fields: [monthId], references: [id])
+  monthId String? // Changed from Int? to String?
+  Month   Month?  @relation(fields: [monthId], references: [id])
 
-  weekId Int?
-  Week   Week? @relation(fields: [weekId], references: [id])
+  weekId String? // Changed from Int? to String?
+  Week   Week?   @relation(fields: [weekId], references: [id])
 
-  dayId Int?
-  Day   Day? @relation(fields: [dayId], references: [id])
+  dayId String? // Changed from Int? to String?
+  Day   Day?    @relation(fields: [dayId], references: [id])
 }

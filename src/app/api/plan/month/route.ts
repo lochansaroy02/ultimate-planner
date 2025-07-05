@@ -1,16 +1,15 @@
 import prisma from "@/utils/prisma";
-import { body } from "framer-motion/client";
 import { NextRequest, NextResponse } from "next/server";
 
 
 export const POST = async (req: NextRequest) => {
     try {
         const data = await req.json()
-        const { title, description } = data;
+        const { title, description, yearId } = data;
 
         const month = await prisma.month.create({
             data: {
-                title, description
+                title, description, yearId
             }
         })
         return NextResponse.json({
@@ -22,9 +21,21 @@ export const POST = async (req: NextRequest) => {
     }
 }
 
-export const GET = (req: NextRequest) => {
+export const GET = async (req: NextRequest) => {
 
-    return NextResponse.json({
-        message: "This is the year route"
-    })
+    try {
+        const yearId = req.nextUrl.searchParams.get("yearId");
+        const months = await prisma.month.findMany({
+            where: { yearId }
+        })
+
+        return NextResponse.json({
+            message: "Months data fateched",
+            data: months
+        })
+    } catch (error) {
+        return NextResponse.json({ message: 'Internal Server Error', error: error })
+
+    }
+
 }

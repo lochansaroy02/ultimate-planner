@@ -7,10 +7,12 @@ export const POST = async (req: NextRequest) => {
     try {
         const data = await req.json()
         const { title, description } = data;
-
         const year = await prisma.year.create({
             data: {
-                title, description
+                title, description,
+                //@ts-ignore
+                months: [], goals: []
+
             }
         })
         return NextResponse.json({
