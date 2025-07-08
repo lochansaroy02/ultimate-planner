@@ -13,14 +13,25 @@ model User {
   username String @unique
   password String
   email    String
+  plan     Plan?
+}
+
+model Plan {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+  years  Year[]
 }
 
 model Year {
-  id          String  @id @default(uuid())
-  title       String
+  id          String @id @default(uuid())
+  title       String @unique
   description String
-  months      Month[]
-  goals       Goal[]
+
+  planId String?
+  plan   Plan?   @relation(fields: [planId], references: [id])
+  months Month[]
+  goals  Goal[]
 }
 
 model Month {

@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const POST = async (req: NextRequest) => {
     try {
         const data = await req.json();
-        const { title, description, isCompleted } = data;
+        const { title, description, isCompleted, dayId } = data;
 
         if (!title || !description || typeof isCompleted !== "boolean") {
             return NextResponse.json(
@@ -18,6 +18,7 @@ export const POST = async (req: NextRequest) => {
                 title,
                 description,
                 isCompleted,
+                dayId
             },
         });
 
