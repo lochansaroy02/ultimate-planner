@@ -11,7 +11,7 @@ interface DayState {
 }
 
 
-export const useWeekStore = create<DayState>((set) => ({
+export const useDayStore = create<DayState>((set) => ({
     dayData: null,
     isLoading: false,
     isDescription: false,

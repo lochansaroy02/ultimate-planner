@@ -1,12 +1,12 @@
 "use client";
-import { Button } from '@/components/ui/Button';
-import { usePlanStore, useYearStore } from '@/store/plannerStore';
+
+import Plan from '@/components/plan/Plan';
+import { useYearStore } from '@/store/planner/yearStore';
 import { useIsGoalStore } from '@/store/store';
 import { useEffect, useState } from 'react';
 
 const page = () => {
 
-    const { createPlan, isLoading } = usePlanStore()
     const [thisYear, setThisYear] = useState<String>("");
     const [yearDecription, setYearDescription] = useState<string>("");
     const [monthDecription, setMonthDescription] = useState<string>("");
@@ -55,14 +55,6 @@ const page = () => {
         getWeekOfMonth(now);
     }, [])
 
-    const getYearData = async () => {
-        const yearData = await getYear()
-        console.log(yearData);
-    }
-
-    useEffect(() => {
-        getYearData()
-    }, [])
 
     const handleYearSubmit = async () => {
         await createYear(yearDecription)
@@ -74,10 +66,7 @@ const page = () => {
 
             <div className='mt-18 flex items-center   mx-24  flex-col'>
                 <h1>Planner </h1>
-
-                <Button size='sm' variant='primary' text={!isLoading ? "create" : "Loading..."} onclick={() => {
-                    createPlan()
-                }} />
+                <Plan />
 
 
 

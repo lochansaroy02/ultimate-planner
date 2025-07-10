@@ -13,7 +13,7 @@ export const POST = async (req: NextRequest) => {
             }
         })
         return NextResponse.json({
-            message: "Year Goal Created",
+            message: "Year  Created",
             data: year
         })
     } catch (error) {
@@ -25,17 +25,19 @@ export const GET = async (req: NextRequest) => {
 
     try {
 
-        // here I need add the userId to fetch the year of related user 
-
-        const yearId = req.nextUrl.searchParams.get("yearId");
-        const months = await prisma.month.findMany({
-            where: { yearId }
+        const planId = req.nextUrl.searchParams.get("planId");
+        const years = await prisma.year.findMany({
+            where: { planId }
         })
 
-        return NextResponse.json({
-            message: "Months data fateched",
-            data: months
-        })
+        return NextResponse.json(
+            {
+                message: "year factched",
+                years: years
+            }
+        )
+
+
     } catch (error) {
         return NextResponse.json({ message: 'Internal Server Error', error: error })
 

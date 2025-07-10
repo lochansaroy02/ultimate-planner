@@ -2,11 +2,11 @@ import axios from "axios";
 import { create } from "zustand";
 
 interface YearState {
-    yearData: null;
+    yearData: any;
     isLoading: boolean;
     isDescription: boolean;
     createYear: (description: string) => Promise<void>;
-    getYear: () => Promise<void>
+    getYear: (planId: string) => Promise<void>
 }
 
 export const useYearStore = create<YearState>((set) => ({
@@ -36,9 +36,9 @@ export const useYearStore = create<YearState>((set) => ({
         }
     },
 
-    getYear: async () => {
+    getYear: async (planId: string) => {
         try {
-            const response = await axios.get("/api/plan/year");
+            const response = await axios.get(`/api/planner/year?planId=${planId}`)
             const data = await response.data;
             set({ yearData: data })
         } catch (error) {

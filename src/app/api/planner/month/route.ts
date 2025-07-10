@@ -13,7 +13,7 @@ export const POST = async (req: NextRequest) => {
             }
         })
         return NextResponse.json({
-            message: "Month Goal Created",
+            message: "month created",
             data: month
         })
     } catch (error) {

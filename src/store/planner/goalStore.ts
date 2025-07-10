@@ -2,7 +2,7 @@ import axios from "axios";
 import { create } from "zustand";
 
 interface GoalState {
-    goalData: any; 
+    goalData: any;
     isLoading: boolean;
     isGoal: boolean;
     createGoal: (
@@ -22,7 +22,7 @@ interface GoalState {
     ) => Promise<void>;
 }
 
-export const usePlanStore = create<GoalState>((set) => ({
+export const useGoalStore = create<GoalState>((set) => ({
     goalData: null,
     isLoading: false,
     isGoal: false,

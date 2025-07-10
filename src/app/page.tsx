@@ -1,18 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import { usePlanStore } from "@/store/plannerStore";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const page = () => {
 
   const router = useRouter();
-  const { getPlan, createPlan, planData } = usePlanStore()
-  console.log(planData);
-  useEffect(() => {
-    getPlan();
-  }, [])
   return (
     <div className="flex items-center flex-col h-screen ">
       <div className="mt-24 flex flex-col gap-4   items-center ">

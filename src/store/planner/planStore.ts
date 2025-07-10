@@ -31,7 +31,7 @@ export const usePlanStore = create<planState>((set) => ({
     getPlan: async (userId: string) => {
         try {
             const response = await axios(`/api/planner/plan?userId=${userId}`)
-            const data = response.data;
+            const data = response?.data;
             set({ planData: data })
         } catch (error) {
             console.error('Failed to create year:', error);

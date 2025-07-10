@@ -11,7 +11,7 @@ interface TaskState {
 }
 
 
-export const useWeekStore = create<TaskState>((set) => ({
+export const useTaskStore = create<TaskState>((set) => ({
     taskData: null,
     isLoading: false,
     isDescription: false,
