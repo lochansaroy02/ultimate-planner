@@ -31,3 +31,22 @@ export const POST = async (req: NextRequest) => {
         );
     }
 };
+
+
+
+export const GET = async (req: NextRequest) => {
+    try {
+        const dayId = req.nextUrl.searchParams.get("dayId");
+        const tasks = await prisma.task.findMany({
+            where: { dayId }
+        })
+
+        return NextResponse.json({
+            message: "task data fateched",
+            data: tasks
+        })
+    } catch (error) {
+        return NextResponse.json({ message: 'Internal Server Error', error: error })
+
+    }
+}
