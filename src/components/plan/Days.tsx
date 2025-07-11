@@ -21,7 +21,7 @@ const Days = ({ weekId }: { weekId: string }) => {
     }, [weekId])
 
     const days = dayMap[weekId];
-
+    
     const handleDayCreate = async () => {
         const title = titleRef.current?.value;
         const desc = descriptionRef.current?.value;
