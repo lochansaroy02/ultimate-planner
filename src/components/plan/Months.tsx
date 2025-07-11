@@ -1,23 +1,57 @@
 // components/Months.tsx
 "use client";
-import { useEffect } from "react";
 import { useMonthStore } from "@/store/planner/monthStore";
-import Weeks from "./Weeks";
 import { useToggleStore } from "@/store/toggleStore";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/Button";
+import Weeks from "./Weeks";
+import LabelledInput from "../ui/LabelledInput";
 
 const Months = ({ yearid }: { yearid: string }) => {
-    const { getMonth, monthMap } = useMonthStore();
+    const { getMonth, monthMap, createMonth } = useMonthStore();
     const { toggleOpen, isOpen } = useToggleStore();
+    const [isCreating, setIsCreating] = useState<boolean>(false)
+
+    const monthRef = useRef<HTMLInputElement>(null)
+    const descriptionRef = useRef<HTMLInputElement>(null)
+
+
 
     useEffect(() => {
         getMonth(yearid);
     }, [yearid]);
+    const months = monthMap[yearid];
 
-    const months = monthMap[yearid]; // ✅ Scoped by year
 
+    const handleMonthCreate = async () => {
+        const title = monthRef.current?.value
+        const description = descriptionRef.current?.value
+
+        await createMonth(title, description, yearid)
+
+        if (monthRef.current) monthRef.current.value = "";
+        if (descriptionRef.current) descriptionRef.current.value = "";
+        setIsCreating(false)
+    }
     return (
         <div className="ml-8 flex flex-col gap-2 p-2 rounded-b-xl">
+            <div className="">
+                {!isCreating ?
+                    <div className=" w-full flex pr-12 gap-4    justify-end">
+                        <Button onclick={() => {
+                            setIsCreating(true)
+                        }} variant="primary" size="sm" text="Create Month" />
+                        <Button variant="primary" size="sm" text="create Goal" />
+                    </div> : <div className='flex gap-2 items-center justify-center'>
+                        <div className="flex gap-2  ">
+                            <LabelledInput inputRef={monthRef} placeholder='Enter month' type='text' />
+                            <LabelledInput inputRef={descriptionRef} placeholder='description' type='text' />
+                        </div>
+                        <Button onclick={handleMonthCreate} variant='primary' size='sm' text='create' />
+                    </div>
+                }
+            </div>
+
             {months?.map((item: any, index: number) => {
                 const open = isOpen(item.id);
                 return (
@@ -29,8 +63,7 @@ const Months = ({ yearid }: { yearid: string }) => {
                                 <p>{item.description}</p>
                             </div>
                             <div className="flex  gap-2 ">
-                                <Button variant="primary" size="sm" text="create Goal" />
-                                <Button variant="primary" size="sm" text="create Week" />
+
 
                             </div>
                         </div>

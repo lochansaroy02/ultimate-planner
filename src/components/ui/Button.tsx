@@ -6,8 +6,7 @@ export interface ButtonProps {
     text: string;
     startIcon?: any;
     endIcon?: any;
-    onclick?: () => void;
-
+    onclick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 const buttonVariants = {
@@ -21,7 +20,7 @@ const sizeVariants = {
     md: "text-md px-4 py-2 font-medium",
     lg: "text-lg px-6 py-3 font-bold",
 }
-const defaultStyle = "flex items-center justify-center  cursor-pointer "
+const defaultStyle = "flex items-center justify-center  ursor-pointer "
 
 export const Button = (props: ButtonProps) => {
     return (

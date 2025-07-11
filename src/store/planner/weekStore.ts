@@ -8,7 +8,7 @@ interface WeekState {
     openStates: { [monthId: string]: boolean };
     toggleWeekOpen: (monthId: string) => void;
     isDescription: boolean;
-    createWeek: (title: string, description: string, monthId: string) => Promise<void>;
+    createWeek: (title: string | undefined, description: string | undefined, monthId: string) => Promise<void>;
     getWeek: (monthId: string) => Promise<void>
 }
 
@@ -28,21 +28,23 @@ export const useWeekStore = create<WeekState>((set, get) => ({
     },
     isDescription: false,
 
-    createWeek: async (title: string, description: string, monthId: string) => {
+    createWeek: async (title: string | undefined, description: string | undefined, monthId: string) => {
 
         try {
             set({ isLoading: true });
-            const response = await axios.post('/api/plan/month', {
+            const response = await axios.post('/api/planner/week', {
                 title: title,
                 description: description,
                 monthId: monthId
             });
 
             const data = await response.data;
-            console.log(data)
-            set({
-                isDescription: true,
-            });
+            set((state) => ({
+                weekMap: {
+                    ...state.weekMap,
+                    [monthId]: [...(state.weekMap[monthId] || []), data.data],
+                },
+            }));
         } catch (error) {
             console.error('Failed to create year:', error);
         } finally {

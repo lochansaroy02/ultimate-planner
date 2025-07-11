@@ -8,12 +8,12 @@ interface MonthState {
     openStates: { [yearId: string]: boolean };
     toggleMonthOpen: (yearId: string) => void;
     isDescription: boolean;
-    createMonth: (title: string, description: string, yearId: string) => Promise<void>;
+    createMonth: (title: string | undefined, description: string | undefined, yearId: string) => Promise<void>;
     getMonth: (yearId: string) => Promise<void>;
 }
 
 export const useMonthStore = create<MonthState>((set, get) => ({
-    monthMap: {}, // ✅ Store months by yearId
+    monthMap: {},
     openStates: {},
     isLoading: false,
     isDescription: false,
@@ -28,15 +28,22 @@ export const useMonthStore = create<MonthState>((set, get) => ({
         });
     },
 
-    createMonth: async (title: string, description: string, yearId: string) => {
+    createMonth: async (title: string | undefined, description: string | undefined, yearId: string) => {
         try {
             set({ isLoading: true });
-            const response = await axios.post('/api/plan/month', {
+            const response = await axios.post('/api/planner/month', {
                 title,
                 description,
                 yearId,
             });
-            console.log(response.data);
+            const data = await response.data
+            console.log(data)
+            set((state) => ({
+                monthMap: {
+                    ...state.monthMap,
+                    [yearId]: [...(state.monthMap[yearId] || []), data.data], // Append new month
+                },
+            }));
             set({ isDescription: true });
         } catch (error) {
             console.error('Failed to create month:', error);

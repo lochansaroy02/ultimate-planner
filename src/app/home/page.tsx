@@ -61,63 +61,9 @@ const page = () => {
     }
 
     return (
-        <div className='w-screen'>
-
-
-            <div className='mt-18 flex items-center   mx-24  flex-col'>
-                <h1>Planner </h1>
-                <Plan />
-
-
-
-                {/* {!isYear ?
-                    <div className=''>
-                        <Button onclick={() => {
-                            setIsYear(true)
-                        }} variant='secondary' size='sm' text='Get Started' />
-                    </div> : <div>
-                        {isDescription ?
-                            <div>
-                                <h1>{thisYear}</h1>
-                                <p>{yearDecription}</p>
-                            </div> :
-                            <div className='flex gap-2 items-center  p-2 '>
-                                <LabelledInput type='text' placeholder={`set Description for year : `} value={yearDecription} onChange={(e) => {
-                                    setYearDescription(e.target.value)
-                                }} />
-                                <Button text='add' variant='primary' size='sm' onclick={handleYearSubmit} />
-                            </div>
-                        }
-
-                    </div>
-                } */}
-            </div>
-
-            {/* <div className=' w-1/2 flex flex-col mt-2  items-start ml-12 ' >
-                {
-                    <div className='mt-2  w-full    ml-4 px-4'>
-                        {
-                            isYear && <Template description={yearDecription} isActive={createMonth} setIsActive={setCreateMonth} isGoal={isMonthGoal} setIsGoal={setIsMonthGoal} title={thisYear} />
-                        }
-                    </div>
-                }
-                <div className='mt-2  w-full    ml-4 px-4'>
-                    {
-                        isYear && <Template description={monthDecription} isActive={createMonth} setIsActive={setCreateMonth} isGoal={isMonthGoal} setIsGoal={setIsMonthGoal} title={now.toLocaleString('default', { month: 'long' })} />
-                    }
-                </div>
-
-                <div className='mt-2 pt-2 pl-16 w-full   '>
-                    {
-                        createMonth && <Template description={weekDecription} isActive={createWeek} setIsActive={setCreateWeek} isGoal={isWeekGoal} setIsGoal={setIsWeekGoal} title={`Week : ${week}`} />
-                    }
-                </div>
-                <div className='mt-2  pt-2  w-full pl-20'>
-                    {
-                        createWeek && <Template description={dayDecription} isActive={createDay} setIsActive={setCreateDay} isGoal={isDayGoal} setIsGoal={setIsDayGoal} title={now.toLocaleString('default', { weekday: 'long' })} />
-                    }
-                </div>
-            </div> */}
+        <div className='w-screen mt-18  flex items-center    flex-col'>
+            <h1>Planner</h1>
+            <Plan />
         </div >
     )
 }

@@ -1,11 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useRef, useState } from "react";
 
 const page = () => {
-
+  const titleRef = useRef<HTMLInputElement>(null)
   const router = useRouter();
   return (
     <div className="flex items-center flex-col h-screen ">

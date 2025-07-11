@@ -8,7 +8,7 @@ interface DayState {
     openStates: { [weekId: string]: boolean }
     toggleDayOpen: (weekId: string) => void;
     isDescription: boolean;
-    createDay: (title: string, description: string, weekId: string) => Promise<void>;
+    createDay: (title: string | undefined, description: string | undefined, weekId: string) => Promise<void>;
     getDay: (weekId: string) => Promise<void>
 }
 
@@ -28,21 +28,23 @@ export const useDayStore = create<DayState>((set, get) => ({
     },
     isDescription: false,
 
-    createDay: async (title: string, description: string, weekId: string) => {
+    createDay: async (title: string | undefined, description: string | undefined, weekId: string) => {
 
         try {
             set({ isLoading: true });
-            const response = await axios.post('/api/plan/month', {
+            const response = await axios.post('/api/planner/day', {
                 title: title,
                 description: description,
                 weekId: weekId
             });
 
             const data = await response.data;
-            console.log(data)
-            set({
-                isDescription: true,
-            });
+            set((state) => ({
+                dayMap: {
+                    ...state.dayMap,
+                    [weekId]: [...(state.dayMap[weekId] || []), data.data],
+                },
+            }));
         } catch (error) {
             console.error('Failed to create year:', error);
         } finally {

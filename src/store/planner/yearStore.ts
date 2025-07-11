@@ -2,33 +2,35 @@ import axios from "axios";
 import { create } from "zustand";
 
 interface YearState {
-    yearData: any;
+    yearData: any[];
     isLoading: boolean;
     isDescription: boolean;
-    createYear: (description: string) => Promise<void>;
+    createYear: (title: string, description: string, planId: string) => Promise<void>;
     getYear: (planId: string) => Promise<void>
 }
 
 export const useYearStore = create<YearState>((set) => ({
-    yearData: null,
+    yearData: [],
     isLoading: false,
     isDescription: false,
 
-    createYear: async (description: string) => {
-        const currentYear = new Date().getFullYear().toString();
+    createYear: async (title: string, description: string, planId: string) => {
 
         try {
             set({ isLoading: true });
-            const response = await axios.post('/api/plan/year', {
-                title: currentYear,
+            const response = await axios.post('/api/planner/year', {
+                title: title,
                 description: description,
+                planId: planId
             });
 
             const data = await response.data;
-            console.log(data)
-            set({
+            const newYear = data.data;
+            console.log(newYear)
+            set((state) => ({
                 isDescription: true,
-            });
+                yearData: [...(state.yearData || []), newYear]
+            }))
         } catch (error) {
             console.error('Failed to create year:', error);
         } finally {
@@ -40,7 +42,7 @@ export const useYearStore = create<YearState>((set) => ({
         try {
             const response = await axios.get(`/api/planner/year?planId=${planId}`)
             const data = await response.data;
-            set({ yearData: data })
+            set({ yearData: data.years })
         } catch (error) {
             console.error('Failed to create year:', error);
         }
