@@ -1,6 +1,8 @@
 "use client";
 
 import Plan from '@/components/plan/Plan';
+import Progress from '@/components/Progress';
+import CircularGauge from '@/components/ui/CircularGauge';
 import { useYearStore } from '@/store/planner/yearStore';
 import { useIsGoalStore } from '@/store/store';
 import { useEffect, useState } from 'react';
@@ -50,20 +52,20 @@ const page = () => {
 
 
     useEffect(() => {
-
         getDates();
         getWeekOfMonth(now);
     }, [])
-
-
-    const handleYearSubmit = async () => {
-        await createYear(yearDecription)
-    }
-
     return (
-        <div className='w-screen mt-18  flex items-center    flex-col'>
+        <div className='mt-18  flex items-center     flex-col'>
             <h1>Planner</h1>
-            <Plan />
+            <div className='w-full flex'>
+                <div className='w-[60%] '>
+                    <Plan />
+                </div>
+
+                <Progress />
+
+            </div>
         </div >
     )
 }

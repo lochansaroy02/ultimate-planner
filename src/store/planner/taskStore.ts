@@ -4,17 +4,20 @@ import { create } from 'zustand';
 
 interface TaskState {
     taskMap: { [dayId: string]: any[] };
+    allTasks: any[]
     openStates: { [dayId: string]: boolean }
     toggleDayOpen: (dayId: string) => void;
     isLoading: boolean;
     isDescription: boolean;
     createTask: (title: string | undefined, description: string | undefined, isCompleted: boolean, dayId: string) => Promise<void>;
     getTask: (dayId: string) => Promise<void>
+    getAllTask: () => Promise<void>
 }
 
 
 export const useTaskStore = create<TaskState>((set, get) => ({
     taskMap: {},
+    allTasks: [],
     isLoading: false,
     isDescription: false,
     toggleDayOpen: (dayId: string) => {
@@ -63,6 +66,17 @@ export const useTaskStore = create<TaskState>((set, get) => ({
                     [dayId]: data.data,
                 },
             }));
+        } catch (error) {
+            console.error('Failed to create year:', error);
+        }
+    },
+    getAllTask: async () => {
+        try {
+            const response = await axios.get(`/api/planner/task/all`);
+            const data = await response.data;
+            set((state) => ({
+                allTasks: [...(state.allTasks || []), data.data]
+            }))
         } catch (error) {
             console.error('Failed to create year:', error);
         }

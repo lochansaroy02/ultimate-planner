@@ -6,16 +6,16 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/Button";
 import Weeks from "./Weeks";
 import LabelledInput from "../ui/LabelledInput";
+import SelectMonth from "../select/SelectMonth";
 
 const Months = ({ yearid }: { yearid: string }) => {
     const { getMonth, monthMap, createMonth } = useMonthStore();
     const { toggleOpen, isOpen } = useToggleStore();
     const [isCreating, setIsCreating] = useState<boolean>(false)
+    const [selectedMonth, setSelectedMonth] = useState<string>("");
 
     const monthRef = useRef<HTMLInputElement>(null)
     const descriptionRef = useRef<HTMLInputElement>(null)
-
-
 
     useEffect(() => {
         getMonth(yearid);
@@ -27,7 +27,7 @@ const Months = ({ yearid }: { yearid: string }) => {
         const title = monthRef.current?.value
         const description = descriptionRef.current?.value
 
-        await createMonth(title, description, yearid)
+        await createMonth(selectedMonth, description, yearid)
 
         if (monthRef.current) monthRef.current.value = "";
         if (descriptionRef.current) descriptionRef.current.value = "";
@@ -44,7 +44,7 @@ const Months = ({ yearid }: { yearid: string }) => {
                         <Button variant="primary" size="sm" text="create Goal" />
                     </div> : <div className='flex gap-2 items-center justify-center'>
                         <div className="flex gap-2  ">
-                            <LabelledInput inputRef={monthRef} placeholder='Enter month' type='text' />
+                            <SelectMonth onChange={setSelectedMonth} value={selectedMonth} label="Select Month" />
                             <LabelledInput inputRef={descriptionRef} placeholder='description' type='text' />
                         </div>
                         <Button onclick={handleMonthCreate} variant='primary' size='sm' text='create' />

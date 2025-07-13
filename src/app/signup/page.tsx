@@ -5,7 +5,7 @@ import { useState } from 'react';
 const page = () => {
     const [userName, setUserName] = useState<String>("");
     const [password, setPassword] = useState<String>("");
-    
+
 
     return (
         <div className=' flex items-center flex-col gap-4 justify-center h-screen'>
