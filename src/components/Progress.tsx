@@ -17,7 +17,7 @@ const Progress = () => {
     const sampleData = generateSampleData();
 
     return (
-        <div className='w-[40%] mr-8 gap-6 items-center flex  flex-col px-8 py-4 '>
+        <div className=' gap-6 items-center flex  flex-col px-8 py-4 '>
             <CircularGauge percentage={68} label='Progress' />
             <Heatmap data={sampleData} />
         </div>

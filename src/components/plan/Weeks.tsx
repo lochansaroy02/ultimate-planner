@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/Button";
 import LabelledInput from "../ui/LabelledInput";
 import Days from "./Days";
+import { ChevronDown, ChevronRight, Pen, Plus } from "lucide-react";
 
 const Weeks = ({ monthId }: { monthId: string }) => {
     const { getWeek, weekMap, createWeek } = useWeekStore();
@@ -36,10 +37,8 @@ const Weeks = ({ monthId }: { monthId: string }) => {
             <div className="">
                 {!isCreating ?
                     <div className=" w-full flex pr-12 gap-4    justify-end">
-                        <Button onclick={() => {
-                            setIsCreating(true)
-                        }} variant="primary" size="sm" text="Create Month" />
-                        <Button variant="primary" size="sm" text="create Goal" />
+                        <Button onclick={() => { setIsCreating(true) }} variant="primary" size="sm" styles="cursor-pointer" startIcon={<Pen className="size-4" />} />
+                        <Button variant="primary" size="sm" styles="cursor-pointer" startIcon={<Plus className="size-4" />} />
                     </div> : <div className='flex gap-2 items-center justify-center'>
                         <div className="flex gap-2  ">
                             <LabelledInput inputRef={weekRef} placeholder='Enter week' type='text' />
@@ -58,6 +57,11 @@ const Weeks = ({ monthId }: { monthId: string }) => {
                     >
                         <div onClick={() => toggleOpen(item.id)}
                             className="cursor-pointer flex gap-4  items-center bg-purple-800 rounded-xl p-2">
+                            <span>
+                                {
+                                    open ? <ChevronDown /> : <ChevronRight />
+                                }
+                            </span>
                             <h1>{item.title}</h1>
                             <p>{item.description}</p>
                         </div>

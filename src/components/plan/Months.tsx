@@ -3,10 +3,11 @@
 import { useMonthStore } from "@/store/planner/monthStore";
 import { useToggleStore } from "@/store/toggleStore";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "../ui/Button";
-import Weeks from "./Weeks";
-import LabelledInput from "../ui/LabelledInput";
 import SelectMonth from "../select/SelectMonth";
+import { Button } from "../ui/Button";
+import LabelledInput from "../ui/LabelledInput";
+import Weeks from "./Weeks";
+import { ArrowDownAZ, ChevronDown, ChevronRight, Pen, Plus } from "lucide-react";
 
 const Months = ({ yearid }: { yearid: string }) => {
     const { getMonth, monthMap, createMonth } = useMonthStore();
@@ -38,10 +39,11 @@ const Months = ({ yearid }: { yearid: string }) => {
             <div className="">
                 {!isCreating ?
                     <div className=" w-full flex pr-12 gap-4    justify-end">
-                        <Button onclick={() => {
-                            setIsCreating(true)
-                        }} variant="primary" size="sm" text="Create Month" />
-                        <Button variant="primary" size="sm" text="create Goal" />
+
+                        <Button onclick={() => { setIsCreating(true) }} variant="primary" size="sm" styles="cursor-pointer" startIcon={<Pen className="size-4" />} />
+
+                        <Button variant="primary" size="sm" styles="cursor-pointer" startIcon={<Plus className="size-4" />} />
+
                     </div> : <div className='flex gap-2 items-center justify-center'>
                         <div className="flex gap-2  ">
                             <SelectMonth onChange={setSelectedMonth} value={selectedMonth} label="Select Month" />
@@ -58,7 +60,12 @@ const Months = ({ yearid }: { yearid: string }) => {
                     <div key={item.id} className="flex flex-col rounded-xl">
                         <div onClick={() => toggleOpen(item.id)}
                             className="cursor-pointer flex justify-between items-center bg-amber-800 rounded-xl p-2">
-                            <div>
+                            <div className="flex gap-2 items-center ">
+                                <span>
+                                    {
+                                        open ? <ChevronDown /> : <ChevronRight />
+                                    }
+                                </span>
                                 <h1>{item.title}</h1>
                                 <p>{item.description}</p>
                             </div>

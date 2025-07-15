@@ -1,12 +1,16 @@
 
 "use client";
+
+import { cn } from "@/utils/tailwind-merge";
+
 export interface ButtonProps {
     variant: 'primary' | 'secondary' | 'tertiary';
     size: "sm" | "md" | "lg";
-    text: string;
+    text?: string;
     startIcon?: any;
     endIcon?: any;
     onclick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    styles?: string
 }
 
 const buttonVariants = {
@@ -26,13 +30,17 @@ export const Button = (props: ButtonProps) => {
     return (
         <div className=" "> {
             <button
-                className={`${buttonVariants[props.variant]} ${sizeVariants[props.size]}  ${defaultStyle}`
-                }
+                className={cn(
+                    buttonVariants[props.variant],
+                    sizeVariants[props.size],
+                    defaultStyle,
+                    props.styles
+                )}
                 onClick={props.onclick}
             >
-                {props.startIcon && <span className="mr-2">{props.startIcon}</span>}
+                {props.startIcon && <span className="">{props.startIcon}</span>}
                 {props.text}
-                {props.endIcon && <span className="ml-2">{props.endIcon}</span>}
+                {props.endIcon && <span className="">{props.endIcon}</span>}
             </button >
         }</div >
     )

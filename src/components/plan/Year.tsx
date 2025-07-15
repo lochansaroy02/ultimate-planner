@@ -7,6 +7,9 @@ import SelectYear from "../select/SelectYear";
 import { Button } from "../ui/Button";
 import LabelledInput from "../ui/LabelledInput";
 import Months from "./Months";
+import { Geist } from "next/font/google";
+
+
 
 const Year = () => {
     const { getYear, yearData, createYear } = useYearStore();
@@ -15,26 +18,31 @@ const Year = () => {
     const [isCreating, setIsCreating] = useState(false)
     const [title, setTitle] = useState<string>("");
     const [desc, setDesc] = useState<string>("");
-    
+
     const handleCreateYear = () => {
-        createYear(title, desc, userData.userId)
+        createYear(title, desc, userData?.userId)
         setTitle("")
         setDesc("")
         setIsCreating(false);
     }
 
     useEffect(() => {
-        userData && getYear(userData.userId);
-    }, []);
+        if (userData?.userId) {
+            getYear(userData.userId);
+        }
+    }, [userData]);
 
     return (
         <div className="flex flex-col mt-4   w-full gap-4">
             <div className="flex flex-col">
 
                 {!isCreating ?
-                    <Button onclick={() => {
-                        setIsCreating(true)
-                    }} variant="primary" size="sm" text="create Year" /> :
+                    <div className="  flex justify-end pr-8 ">
+                        <Button onclick={() => {
+                            setIsCreating(true)
+                        }} variant="primary" size="sm" text="create Year" />
+                    </div>
+                    :
                     <div className="flex gap-2 ">
                         <SelectYear value={title} onChange={setTitle} label="Select Year" />
                         <LabelledInput onChange={(e) => {
@@ -50,13 +58,11 @@ const Year = () => {
                     return (
                         <div key={item.id} className="flex flex-col rounded-xl">
                             <div
-                                className="bg-emerald-700 p-2  justify-between flex rounded-xl cursor-pointer"
+                                className="bg-neutral-700 p-2 justify-between flex rounded-xl cursor-pointer"
                                 onClick={() => toggleOpen(item.id)}>
-                                <div>
-                                    <h1 className="text-2xl">{item.title}</h1>
+                                <div className="flex items-center gap-4">
+                                    <h1 className="text-lg">{item.title}</h1>
                                     <p>{item.description}</p>
-                                </div>
-                                <div className="flex items-center  gap-2 ">
                                 </div>
                             </div>
                             <div className="ml-8">

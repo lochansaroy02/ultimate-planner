@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { Button } from "../ui/Button"
 import LabelledInput from "../ui/LabelledInput"
 import Tasks from "./Tasks"
+import { ChevronDown, ChevronRight } from "lucide-react"
 
 const Days = ({ weekId }: { weekId: string }) => {
 
@@ -21,7 +22,7 @@ const Days = ({ weekId }: { weekId: string }) => {
     }, [weekId])
 
     const days = dayMap[weekId];
-    
+
     const handleDayCreate = async () => {
         const title = titleRef.current?.value;
         const desc = descriptionRef.current?.value;
@@ -55,10 +56,14 @@ const Days = ({ weekId }: { weekId: string }) => {
                     <div key={item.id} className="flex flex-col rounded-xl">
                         <div onClick={() => toggleOpen(item.id)}
                             className="cursor-pointer flex justify-between items-center bg-cyan-800 rounded-xl p-2">
-                            <div>
+                            <div className="flex gap-2 ">
+                                <span>
+                                    {
+                                        open ? <ChevronDown /> : <ChevronRight />
+                                    }
+                                </span>
                                 <h1>{item.title}</h1>
                                 <p>{item.description}</p>
-                                <h1>{item.id}</h1>
                             </div>
                             <div className="flex  gap-2 ">
                                 <Button variant="primary" size="sm" text="create Goal" />
