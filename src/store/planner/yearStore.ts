@@ -5,8 +5,8 @@ interface YearState {
     yearData: any[];
     isLoading: boolean;
     isDescription: boolean;
-    createYear: (title: string, description: string, planId: string) => Promise<void>;
-    getYear: (planId: string) => Promise<void>
+    createYear: (title: string, description: string, userId: string) => Promise<void>;
+    getYear: (userId: string) => Promise<void>
 }
 
 export const useYearStore = create<YearState>((set) => ({
@@ -14,18 +14,17 @@ export const useYearStore = create<YearState>((set) => ({
     isLoading: false,
     isDescription: false,
 
-    createYear: async (title: string, description: string, planId: string) => {
+    createYear: async (title: string, description: string, userId: string) => {
 
         try {
             set({ isLoading: true });
             const response = await axios.post('/api/planner/year', {
                 title: title,
                 description: description,
-                planId: planId
+                userId: userId
             });
-
             const data = await response.data;
-            const newYear = data.data;
+            const newYear = await data.data;
             console.log(newYear)
             set((state) => ({
                 isDescription: true,
@@ -38,9 +37,9 @@ export const useYearStore = create<YearState>((set) => ({
         }
     },
 
-    getYear: async (planId: string) => {
+    getYear: async (userId: string) => {
         try {
-            const response = await axios.get(`/api/planner/year?planId=${planId}`)
+            const response = await axios.get(`/api/planner/year?planId=${userId}`)
             const data = await response.data;
             set({ yearData: data.years })
         } catch (error) {

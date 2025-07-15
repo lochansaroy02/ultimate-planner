@@ -12,7 +12,6 @@ const page = () => {
   useEffect(() => {
     getAllTask()
   }, [])
-  console.log(allTasks)
   return (
     <div className="flex items-center flex-col h-screen ">
       <div className="mt-24 flex flex-col gap-4   items-center ">
@@ -21,6 +20,9 @@ const page = () => {
           <Button onclick={() => {
             router.push("/home")
           }} variant="primary" size="md" text="Home" />
+          <Button onclick={() => {
+            router.push("/register")
+          }} variant="primary" size="md" text="Register" />
         </div>
       </div>
       <div className="mt-8  w-1/2  ">

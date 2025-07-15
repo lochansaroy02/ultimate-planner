@@ -1,5 +1,4 @@
 "use client";
-import { usePlanStore } from '@/store/planner/planStore';
 import { useYearStore } from '@/store/planner/yearStore';
 import { useRef, useState } from 'react';
 import { Button } from '../ui/Button';
@@ -12,13 +11,6 @@ const Plan = () => {
     const [yearDecription, setYearDescription] = useState<string>("")
 
     const { createYear } = useYearStore();
-    const { planData } = usePlanStore();
-
-    const yearRef = useRef<HTMLInputElement | null>
-
-    const handleClick = () => {
-
-    }
     return (
 
         <div className=" w-3/4 flex flex-col items-center   justify-center ">

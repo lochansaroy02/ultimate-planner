@@ -5,11 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 export const POST = async (req: NextRequest) => {
     try {
         const data = await req.json()
-        const { title, description, planId } = data;
+        const { title, description, userId } = data;
 
         const year = await prisma.year.create({
             data: {
-                title, description, planId
+                title, description, userId
             }
         })
         return NextResponse.json({
@@ -25,9 +25,9 @@ export const GET = async (req: NextRequest) => {
 
     try {
 
-        const planId = req.nextUrl.searchParams.get("planId");
+        const userId = req.nextUrl.searchParams.get("userId");
         const years = await prisma.year.findMany({
-            where: { planId }
+            where: { userId }
         })
 
         return NextResponse.json(

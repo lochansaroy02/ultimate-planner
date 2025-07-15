@@ -1,9 +1,10 @@
 import { PrismaClient } from "@/generated/prisma";
 import { NextRequest, NextResponse } from "next/server";
-
+import jwt from "jsonwebtoken";
+import prisma from "@/utils/prisma";
+const JWT_SECRET = process.env.JWT_SECRET || "secret";
 
 export const POST = async (req: NextRequest,) => {
-    const client = new PrismaClient();
     try {
         const data = await req.json()
         const {
@@ -12,13 +13,21 @@ export const POST = async (req: NextRequest,) => {
             password
         } = data;
 
-        const user = await client.user.create({
+
+        const existingUser = await prisma.user.findUnique({
+            where: { username }
+        });
+
+        if (existingUser) {
+            return NextResponse.json({
+                message: "Username already taken"
+            }, { status: 400 });
+        }
+        const user = await prisma.user.create({
             data: {
                 email, password, username
             }
         })
-
-        
 
         return NextResponse.json({
             message: "User created",

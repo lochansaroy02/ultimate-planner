@@ -11,32 +11,24 @@ datasource db {
 model User {
   id       String @id @default(uuid())
   username String @unique
+  email    String @unique
   password String
-  email    String
-  plan     Plan?
-}
-
-model Plan {
-  id     String @id @default(uuid())
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
-  years  Year[]
+  years    Year[]
 }
 
 model Year {
-  id          String @id @default(uuid())
-  title       String @unique
+  id          String  @id @default(uuid())
+  title       String  @unique
   description String
-
-  planId String?
-  plan   Plan?   @relation(fields: [planId], references: [id])
-  months Month[]
-  goals  Goal[]
+  months      Month[]
+  goals       Goal[]
+  User        User?   @relation(fields: [userId], references: [id])
+  userId      String?
 }
 
 model Month {
   id          String  @id @default(uuid())
-  title       String
+  title       String  @unique
   description String
   yearId      String? // Changed from Int? to String?
   weeks       Week[]
@@ -56,7 +48,7 @@ model Week {
 
 model Day {
   id          String  @id @default(uuid())
-  title       String
+  title       String  @unique
   description String
   weekId      String? // Changed from Int? to String?
   Week        Week?   @relation(fields: [weekId], references: [id])
