@@ -80,9 +80,12 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         try {
             const response = await axios.get(`/api/planner/task?dayId=${dayId}`);
             const data = await response.data;
-            set({
-                allTasks: [data.data] // Replace with fresh array
-            });
+            set((state) => ({
+                taskMap: {
+                    ...state.taskMap,
+                    [dayId]: data.data,
+                },
+            }));
         } catch (error) {
             console.error('Failed to create year:', error);
         }

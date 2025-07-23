@@ -2,7 +2,6 @@ import { useTaskStore } from '@/store/planner/taskStore';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import CircularGauge from './ui/CircularGauge';
-import Heatmap from './ui/HeatMap';
 
 const Progress = () => {
     const { getAllTask, allTasks } = useTaskStore();
@@ -31,13 +30,13 @@ const Progress = () => {
     const data: Record<string, number> = {};
     for (let i = 0; i < 365; i++) {
         const date = today.subtract(i, 'day').format('YYYY-MM-DD');
-        data[date] = Math.floor(Math.random() * 6); // Simulated task count
+        data[date] = Math.floor(Math.random() * 6);
     }
 
     return (
         <div className='gap-6 items-center flex flex-col px-8 py-4'>
             <CircularGauge percentage={percentage} label='Progress' />
-            <Heatmap data={data} />
+            {/* <Heatmap data={data} /> */}
         </div>
     );
 };

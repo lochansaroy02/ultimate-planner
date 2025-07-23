@@ -17,11 +17,11 @@ const SelectYear: React.FC<YearSelectorProps> = ({ value, onChange, label }) => 
             <select
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md"
+                className="p-2  text-sm  border border-gray-300 rounded-md"
             >
-                <option className="bg-neutral-800 text-neutral-100" disabled value="">Select Year</option>
+                <option className="bg-neutral-800 text-sm text-neutral-100" disabled value="">Select Year</option>
                 {months.map((month) => (
-                    <option className="bg-neutral-800 text-neutral-100" key={month.value} value={month.label}>
+                    <option className="bg-neutral-800 text-sm text-neutral-100" key={month.value} value={month.label}>
                         {month.label}
                     </option>
                 ))}

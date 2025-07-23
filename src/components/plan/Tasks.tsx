@@ -13,26 +13,27 @@ const Tasks = ({ dayId }: { dayId: string }) => {
     const descRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        getTask(dayId);
+        dayId && getTask(dayId);
     }, [dayId]);
 
     const handleTaskCreate = async () => {
         const title = titleRef.current?.value;
         const desc = descRef.current?.value;
 
-        if (title) {
-            await createTask(title, desc || '', false, dayId);
-            if (titleRef.current) titleRef.current.value = '';
-            if (descRef.current) descRef.current.value = '';
-            setIsCreating(false);
-        }
+        createTask(title, desc || '', false, dayId);
+        setIsCreating(false);
+        // if (title) {
+        //     if (titleRef.current) titleRef.current.value = '';
+        //     if (descRef.current) descRef.current.value = '';
+        // }
     };
 
     const handleToggleComplete = async (taskId: string) => {
         await updateTask(taskId, dayId); // Now uses backend truth
     };
 
-    const tasks = taskMap[dayId] || [];
+    const tasks = taskMap[dayId];
+
 
     return (
         <div className="ml-8 flex flex-col gap-4 p-4 rounded-b-xl">

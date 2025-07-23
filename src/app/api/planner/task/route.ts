@@ -37,10 +37,14 @@ export const POST = async (req: NextRequest) => {
 export const GET = async (req: NextRequest) => {
     try {
         const dayId = req.nextUrl.searchParams.get("dayId");
+        if (!dayId) {
+            return NextResponse.json({ message: "dayId is required" }, { status: 400 });
+        }
         const tasks = await prisma.task.findMany({
             where: { dayId }
         })
 
+  
         return NextResponse.json({
             message: "task data fateched",
             data: tasks

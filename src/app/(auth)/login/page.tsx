@@ -1,7 +1,7 @@
 "use client";
 import { useUserStore } from '@/store/userStore';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from "sonner";
 const page = () => {
     const [email, setEmail] = useState<string>("")
@@ -9,7 +9,7 @@ const page = () => {
 
     const { logIn, isLoggedIn } = useUserStore()
     const router = useRouter()
-    console.log(isLoggedIn)
+   
 
     const handleLogin = async () => {
         const success = await logIn(email, password);
@@ -74,8 +74,10 @@ const page = () => {
                                 </button>
                                 <p className="text-sm font-light text-neutral-500 dark:text-neutral-400">
                                     Dont have an account?
-
                                     <button
+                                        onClick={() => {
+                                            router.push("/register")
+                                        }}
                                         className="font-medium ml-2   cursor-pointer  text-primary-600 hover:underline dark:text-primary-500"
                                     >
                                         SignUp here

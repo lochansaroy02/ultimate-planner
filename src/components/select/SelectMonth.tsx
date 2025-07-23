@@ -27,10 +27,10 @@ const SelectMonth: React.FC<MonthSelectorProps> = ({ value, onChange, label }) =
             <select
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                className="px-2 py-1  border border-gray-300 rounded-md">
-                <option className="bg-neutral-800 text-200" disabled value="">Select Month</option>
+                className="px-2 py-1 text-sm   border border-gray-300 rounded-md">
+                <option className="bg-neutral-800 text-sm  text-200" disabled value="">Select Month</option>
                 {months.map((month) => (
-                    <option className="bg-neutral-800 text-neutral-100" key={month.value} value={month.label}>
+                    <option className="bg-neutral-800  text-sm text-neutral-100" key={month.value} value={month.label}>
                         {month.label}
                     </option>
                 ))}

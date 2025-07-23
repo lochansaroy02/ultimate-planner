@@ -47,8 +47,8 @@ const Months = ({ yearid }: { yearid: string }) => {
                         <Button variant="primary" size="sm" styles="cursor-pointer" startIcon={<Plus className="size-4" />} />
 
                     </div> :
-                    <div className='flex gap-2 items-center justify-center'>
-                        <div className="flex gap-2 items-center b ">
+                    <div className='flex lg:flex-row flex-col gap-2 items-center justify-center'>
+                        <div className="flex lg:flex-row flex-col gap-2 items-center  ">
                             <SelectMonth onChange={setSelectedMonth} value={selectedMonth} label="Select Month" />
                             <LabelledInput inputRef={descriptionRef} placeholder='description' type='text' />
                         </div>

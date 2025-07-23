@@ -37,7 +37,6 @@ export const useMonthStore = create<MonthState>((set, get) => ({
                 yearId,
             });
             const data = await response.data
-            console.log(data)
             set((state) => ({
                 monthMap: {
                     ...state.monthMap,
@@ -56,11 +55,10 @@ export const useMonthStore = create<MonthState>((set, get) => ({
         try {
             const response = await axios.get(`/api/planner/month?yearId=${yearId}`);
             const data = await response.data;
-
             set((state) => ({
                 monthMap: {
                     ...state.monthMap,
-                    [yearId]: data.data, // ✅ Save months for specific year
+                    [yearId]: data.data,
                 },
             }));
         } catch (error) {

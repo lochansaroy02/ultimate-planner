@@ -25,7 +25,6 @@ export const useYearStore = create<YearState>((set) => ({
             });
             const data = await response.data;
             const newYear = await data.data;
-            console.log(newYear)
             set((state) => ({
                 isDescription: true,
                 yearData: [...(state.yearData || []), newYear]
@@ -42,7 +41,6 @@ export const useYearStore = create<YearState>((set) => ({
             const response = await axios.get(`/api/planner/year?userId=${userId}`)
             const data = response.data;
             set({ yearData: data.years })
-            console.log(data)
         } catch (error) {
             console.error('Failed to create year:', error);
         }

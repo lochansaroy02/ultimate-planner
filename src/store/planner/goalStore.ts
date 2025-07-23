@@ -47,7 +47,7 @@ export const useGoalStore = create<GoalState>((set) => ({
                 dayId,
             });
             const data = response.data;
-            console.log("Goal Created:", data);
+
         } catch (error) {
             console.error("Create Goal Error:", error);
         }

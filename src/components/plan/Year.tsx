@@ -48,7 +48,7 @@ const Year = () => {
                         }} variant="primary" size="sm" text="create Year" />
                     </div>
                     :
-                    <div className="flex gap-2 items-center ">
+                    <div className="flex lg:flex-row flex-col gap-2 items-center ">
                         <SelectYear value={title} onChange={setTitle} label="Select Year" />
                         <LabelledInput onChange={(e) => {
                             setDesc(e.target.value)

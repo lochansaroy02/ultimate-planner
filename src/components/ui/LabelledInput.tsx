@@ -11,10 +11,10 @@ interface ILablledInput {
 const LabelledInput = ({ lable, value, placeholder, type, onChange, inputRef }: ILablledInput) => {
     return (
         <div className='flex flex-col gap-1'>
-            <label className='text-sm'>{lable}</label>
+            <label className='text-sm '>{lable}</label>
             <input
-                ref={inputRef} // ✅ add this line
-                className='px-2 py-1 outline outline-neutral-600 text-md bg-neutral-800 focus:outline focus:outline-blue-400 rounded-md'
+                ref={inputRef}
+                className='px-2 py-1 outline outline-neutral-600  text-sm lg:text-md bg-neutral-800 focus:outline focus:outline-blue-400 rounded-md'
                 type={type}
                 placeholder={placeholder}
                 value={value}
