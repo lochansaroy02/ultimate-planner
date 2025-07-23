@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import { Toaster } from "sonner";
 import {
   ClerkProvider,
   SignInButton,
@@ -43,6 +44,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn("antialiased", geistSans.className)}>
         <Header />
+        <Toaster richColors position="top-center" />
         {children}
       </body>
     </html>

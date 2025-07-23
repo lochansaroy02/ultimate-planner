@@ -2,13 +2,13 @@
 import { useYearStore } from "@/store/planner/yearStore";
 import { useToggleStore } from "@/store/toggleStore";
 import { useUserStore } from "@/store/userStore";
+import { motion } from "framer-motion";
 import { ChevronDown, ChevronRight, Pen, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import SelectYear from "../select/SelectYear";
 import { Button } from "../ui/Button";
 import LabelledInput from "../ui/LabelledInput";
 import Months from "./Months";
-import { motion } from "framer-motion"
 
 
 const Year = () => {
@@ -31,7 +31,6 @@ const Year = () => {
     useEffect(() => {
         loadUserFromToken()
     }, [])
-
 
     useEffect(() => {
         userData?.userId && getYear(userData?.userId);
@@ -78,7 +77,7 @@ const Year = () => {
                                         </span>
                                         <div className="flex items-center gap-4 ">
                                             <h1 className="text-lg">{item?.title}</h1>
-                                            <p>{item.description}</p>
+                                            <p>{item?.description}</p>
                                         </div>
                                     </div>
                                     {

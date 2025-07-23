@@ -40,8 +40,9 @@ export const useYearStore = create<YearState>((set) => ({
     getYear: async (userId: string) => {
         try {
             const response = await axios.get(`/api/planner/year?userId=${userId}`)
-            const data = await response.data;
+            const data = response.data;
             set({ yearData: data.years })
+            console.log(data)
         } catch (error) {
             console.error('Failed to create year:', error);
         }

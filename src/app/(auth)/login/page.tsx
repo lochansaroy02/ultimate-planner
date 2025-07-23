@@ -1,18 +1,25 @@
 "use client";
 import { useUserStore } from '@/store/userStore';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { toast } from "sonner";
 const page = () => {
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
 
-    const { logIn } = useUserStore()
+    const { logIn, isLoggedIn } = useUserStore()
     const router = useRouter()
+    console.log(isLoggedIn)
 
-    const handleLogin = () => {
-        logIn(email, password)
-        router.push("/home")
+    const handleLogin = async () => {
+        const success = await logIn(email, password);
+        //@ts-ignore
+        if (success) {
+            toast.success("Login successful!");
+            router.push("/home");
+        } else {
+            toast.error("Invalid email or password");
+        }
     }
 
     return (
