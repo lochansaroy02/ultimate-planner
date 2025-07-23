@@ -2,13 +2,13 @@
 "use client";
 import { useMonthStore } from "@/store/planner/monthStore";
 import { useToggleStore } from "@/store/toggleStore";
+import { ChevronDown, ChevronRight, Pen, Plus } from "lucide-react";
+import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import SelectMonth from "../select/SelectMonth";
 import { Button } from "../ui/Button";
 import LabelledInput from "../ui/LabelledInput";
 import Weeks from "./Weeks";
-import { ArrowDownAZ, ChevronDown, ChevronRight, Pen, Plus } from "lucide-react";
-
 const Months = ({ yearid }: { yearid: string }) => {
     const { getMonth, monthMap, createMonth } = useMonthStore();
     const { toggleOpen, isOpen } = useToggleStore();
@@ -34,6 +34,8 @@ const Months = ({ yearid }: { yearid: string }) => {
         if (descriptionRef.current) descriptionRef.current.value = "";
         setIsCreating(false)
     }
+
+
     return (
         <div className="ml-8 flex flex-col gap-2 p-2 rounded-b-xl">
             <div className="">
@@ -44,8 +46,9 @@ const Months = ({ yearid }: { yearid: string }) => {
 
                         <Button variant="primary" size="sm" styles="cursor-pointer" startIcon={<Plus className="size-4" />} />
 
-                    </div> : <div className='flex gap-2 items-center justify-center'>
-                        <div className="flex gap-2  ">
+                    </div> :
+                    <div className='flex gap-2 items-center justify-center'>
+                        <div className="flex gap-2 items-center b ">
                             <SelectMonth onChange={setSelectedMonth} value={selectedMonth} label="Select Month" />
                             <LabelledInput inputRef={descriptionRef} placeholder='description' type='text' />
                         </div>
@@ -57,8 +60,12 @@ const Months = ({ yearid }: { yearid: string }) => {
             {months?.map((item: any, index: number) => {
                 const open = isOpen(item.id);
                 return (
-                    <div key={item.id} className="flex flex-col rounded-xl">
-                        <div onClick={() => toggleOpen(item.id)}
+                    <div key={item.id} className="flex  flex-col rounded-xl">
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
+                            onClick={() => toggleOpen(item.id)}
                             className="cursor-pointer flex justify-between items-center bg-amber-800 rounded-xl p-2">
                             <div className="flex gap-2 items-center ">
                                 <span>
@@ -73,7 +80,7 @@ const Months = ({ yearid }: { yearid: string }) => {
 
 
                             </div>
-                        </div>
+                        </motion.div>
                         <div>{open && <Weeks monthId={item.id} />}</div>
                     </div>
                 );

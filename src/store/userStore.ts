@@ -31,6 +31,7 @@ export const useUserStore = create<userInterface>()(
                     });
                     const data = response.data;
                     // Optional: auto-login or set state
+
                 } catch (error) {
                     console.error(error);
                 }
@@ -45,7 +46,7 @@ export const useUserStore = create<userInterface>()(
 
                     const token = response.data.token;
                     const data = response.data;
-
+                    console.log(data)
                     localStorage.setItem("token", token);
                     const decoded = jwtDecode<DecodedToken>(token);
                     set({
@@ -55,7 +56,7 @@ export const useUserStore = create<userInterface>()(
                         },
                         isLoggedIn: true,
                     });
-
+                    console.log(decoded)
                 } catch (err) {
                     console.error("Login error:", err);
                 }

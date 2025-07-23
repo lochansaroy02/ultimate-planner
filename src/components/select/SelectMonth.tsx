@@ -24,13 +24,11 @@ const months = [
 const SelectMonth: React.FC<MonthSelectorProps> = ({ value, onChange, label }) => {
     return (
         <div className="flex flex-col gap-1">
-            {label && <label className="text-sm font-medium">{label}</label>}
             <select
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md"
-            >
-                <option className="bg-neutral-800 text-neutral-100" value="">Select Month</option>
+                className="px-2 py-1  border border-gray-300 rounded-md">
+                <option className="bg-neutral-800 text-200" disabled value="">Select Month</option>
                 {months.map((month) => (
                     <option className="bg-neutral-800 text-neutral-100" key={month.value} value={month.label}>
                         {month.label}

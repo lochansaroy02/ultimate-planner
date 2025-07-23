@@ -12,8 +12,6 @@ export const POST = async (req: NextRequest,) => {
             email,
             password
         } = data;
-
-
         const existingUser = await prisma.user.findUnique({
             where: { username }
         });

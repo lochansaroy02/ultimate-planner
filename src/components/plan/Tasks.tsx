@@ -1,71 +1,87 @@
+"use client";
 import { useTaskStore } from '@/store/planner/taskStore';
+import { CheckCircle } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '../ui/Button';
 import LabelledInput from '../ui/LabelledInput';
 
-const Tasks = ({ dayId }) => {
+const Tasks = ({ dayId }: { dayId: string }) => {
+    const { getTask, taskMap, createTask, updateTask } = useTaskStore();
+    const [isCreating, setIsCreating] = useState(false);
 
-    const { getTask, taskMap, createTask } = useTaskStore();
-    const [isCreating, setIsCreating] = useState<boolean>(false)
+    const titleRef = useRef<HTMLInputElement>(null);
+    const descRef = useRef<HTMLInputElement>(null);
 
-
-
-
-    const titleRef = useRef<HTMLInputElement>(null)
-    const descRef = useRef<HTMLInputElement>(null)
+    useEffect(() => {
+        getTask(dayId);
+    }, [dayId]);
 
     const handleTaskCreate = async () => {
         const title = titleRef.current?.value;
         const desc = descRef.current?.value;
-        createTask(title, desc, false, dayId)
-        if (titleRef.current) titleRef.current.value = "";
-        if (descRef.current) descRef.current.value = "";
-        setIsCreating(false)
-    }
 
-    useEffect(() => {
-        getTask(dayId)
-    }, [])
+        if (title) {
+            await createTask(title, desc || '', false, dayId);
+            if (titleRef.current) titleRef.current.value = '';
+            if (descRef.current) descRef.current.value = '';
+            setIsCreating(false);
+        }
+    };
 
+    const handleToggleComplete = async (taskId: string) => {
+        await updateTask(taskId, dayId); // Now uses backend truth
+    };
 
-
-    const tasks = taskMap[dayId];
+    const tasks = taskMap[dayId] || [];
 
     return (
-        <div className='ml-8 flex flex-col gap-2 p-2 rounded-b-xl'>
-            <div className="">
-                {!isCreating ?
-                    <div className=" w-full flex pr-12 gap-4    justify-end">
-                        <Button onclick={() => {
-                            setIsCreating(true)
-                        }} variant="primary" size="sm" text="Create task" />
-                        <Button variant="primary" size="sm" text="create Goal" />
-                    </div> : <div className='flex gap-2 items-center justify-center'>
-                        <div className="flex gap-2  ">
-                            <LabelledInput inputRef={titleRef} placeholder='Enter task' type='text' />
-                            <LabelledInput inputRef={descRef} placeholder='Enter description' type='text' />
-                        </div>
-                        <Button onclick={handleTaskCreate} variant='primary' size='sm' text='create ' />
-                    </div>
-                }
-            </div>
-            <div className='flex  flex-col gap-2 h-fit '>
+        <div className="ml-8 flex flex-col gap-4 p-4 rounded-b-xl">
+            {/* Task Creation Section */}
+            {!isCreating ? (
+                <div className="flex justify-end gap-4">
+                    <Button
+                        onclick={() => setIsCreating(true)}
+                        variant="primary"
+                        size="sm"
+                        text="Create Task"
+                    />
+                    <Button variant="primary" size="sm" text="Create Goal" />
+                </div>
+            ) : (
+                <div className="flex flex-col sm:flex-row gap-2 items-center">
+                    <LabelledInput inputRef={titleRef} placeholder="Enter task" type="text" />
+                    <LabelledInput inputRef={descRef} placeholder="Enter description" type="text" />
+                    <Button onclick={handleTaskCreate} variant="primary" size="sm" text="Create" />
+                </div>
+            )}
 
-                {tasks?.map((item: any, index: number) => {
-                    return (
-                        <div key={index} className="flex flex-col rounded-xl">
-                            <div
-                                className="cursor-pointer flex justify-between items-center bg-stone-800 rounded-xl p-2">
-                                <div>
-                                    <h1>{item?.title}</h1>
-                                </div>
+            {/* Task List */}
+            <div className="flex flex-col gap-2">
+                {tasks && tasks.map((task: any) => (
+                    <div key={task?.id} className="rounded-xl bg-cyan-800  p-3 shadow flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                            <CheckCircle
+                                className={`cursor-pointer size-5 transition-colors duration-300 ${task?.isCompleted ? 'text-green-500' : 'text-gray-400'
+                                    }`}
+                                onClick={() => handleToggleComplete(task?.id)}
+                            />
+                            <div>
+                                <h1
+                                    className={`text-base ${task?.isCompleted ? 'line-through text-gray-400' : 'text-neutral-100'
+                                        }`}
+                                >
+                                    {task?.title}
+                                </h1>
+                                {task?.description && (
+                                    <p className="text-sm text-gray-500">{task?.description}</p>
+                                )}
                             </div>
                         </div>
-                    );
-                })}
+                    </div>
+                ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Tasks
+export default Tasks;

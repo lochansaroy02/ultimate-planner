@@ -65,11 +65,6 @@ const Days = ({ weekId }: { weekId: string }) => {
                                 <h1>{item.title}</h1>
                                 <p>{item.description}</p>
                             </div>
-                            <div className="flex  gap-2 ">
-                                <Button variant="primary" size="sm" text="create Goal" />
-                                <Button variant="primary" size="sm" text="create Day" />
-
-                            </div>
                         </div>
                         <div>{open && <Tasks dayId={item.id} />} </div>
                     </div>

@@ -17,7 +17,7 @@ export const useMonthStore = create<MonthState>((set, get) => ({
     openStates: {},
     isLoading: false,
     isDescription: false,
-
+    isMonthCreating: false,
     toggleMonthOpen: (yearId: string) => {
         const prev = get().openStates;
         set({

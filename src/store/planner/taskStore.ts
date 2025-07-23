@@ -10,6 +10,7 @@ interface TaskState {
     isLoading: boolean;
     isDescription: boolean;
     createTask: (title: string | undefined, description: string | undefined, isCompleted: boolean, dayId: string) => Promise<void>;
+    updateTask: (taskId: string, dayId: string) => Promise<void>
     getTask: (dayId: string) => Promise<void>
     getAllTask: () => Promise<void>
 }
@@ -55,17 +56,33 @@ export const useTaskStore = create<TaskState>((set, get) => ({
             set({ isLoading: false });
         }
     },
+    updateTask: async (taskId: string, dayId: string) => {
+        try {
+            const response = await axios.patch(`/api/planner/task?taskId=${taskId}`);
+            const updatedTask = response.data.data;
+
+            set((state) => ({
+                taskMap: {
+                    ...state.taskMap,
+                    [dayId]: (state.taskMap[dayId] || []).map(task =>
+                        task.id === updatedTask.id ? updatedTask : task
+                    ),
+                },
+            }));
+            await get().getAllTask();
+        } catch (error) {
+            console.error('Failed to update task:', error);
+        }
+    },
+
 
     getTask: async (dayId: string) => {
         try {
             const response = await axios.get(`/api/planner/task?dayId=${dayId}`);
             const data = await response.data;
-            set((state) => ({
-                taskMap: {
-                    ...state.taskMap,
-                    [dayId]: data.data,
-                },
-            }));
+            set({
+                allTasks: [data.data] // Replace with fresh array
+            });
         } catch (error) {
             console.error('Failed to create year:', error);
         }

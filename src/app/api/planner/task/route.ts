@@ -52,3 +52,37 @@ export const GET = async (req: NextRequest) => {
 }
 
 
+export const PATCH = async (req: NextRequest) => {
+    try {
+        const taskId = req.nextUrl.searchParams.get("taskId");
+
+        if (!taskId) {
+            return NextResponse.json({ message: "Task ID is required" }, { status: 400 });
+        }
+
+        // Get the current task
+        const existingTask = await prisma.task.findUnique({
+            where: {
+                id: taskId,
+            },
+        });
+        if (!existingTask) {
+            return NextResponse.json({ message: "Task not found" }, { status: 404 });
+        }
+        const updatedTask = await prisma.task.update({
+            where: { id: taskId },
+            data: {
+                isCompleted: !existingTask.isCompleted,
+            },
+        });
+
+        return NextResponse.json({
+            message: "Task updated",
+            data: updatedTask,
+        });
+
+    } catch (error) {
+        console.error("PATCH Error:", error);
+        return NextResponse.json({ message: 'Internal Server Error', error }, { status: 500 });
+    }
+};

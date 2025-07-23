@@ -7,6 +7,7 @@ import { Button } from "../ui/Button";
 import LabelledInput from "../ui/LabelledInput";
 import Days from "./Days";
 import { ChevronDown, ChevronRight, Pen, Plus } from "lucide-react";
+import { motion } from "motion/react";
 
 const Weeks = ({ monthId }: { monthId: string }) => {
     const { getWeek, weekMap, createWeek } = useWeekStore();
@@ -40,7 +41,7 @@ const Weeks = ({ monthId }: { monthId: string }) => {
                         <Button onclick={() => { setIsCreating(true) }} variant="primary" size="sm" styles="cursor-pointer" startIcon={<Pen className="size-4" />} />
                         <Button variant="primary" size="sm" styles="cursor-pointer" startIcon={<Plus className="size-4" />} />
                     </div> : <div className='flex gap-2 items-center justify-center'>
-                        <div className="flex gap-2  ">
+                        <div className="flex gap-2  items-center ">
                             <LabelledInput inputRef={weekRef} placeholder='Enter week' type='text' />
                             <LabelledInput inputRef={weekDescRef} placeholder='Enter description' type='text' />
                         </div>
@@ -48,14 +49,17 @@ const Weeks = ({ monthId }: { monthId: string }) => {
                     </div>
                 }
             </div>
-            {weeks?.map((item: any) => {
+            {weeks?.map((item: any, index: number) => {
                 const open = isOpen(item.id)
                 return (
                     <div
                         key={item.id}
                         className="cursor-default"
                     >
-                        <div onClick={() => toggleOpen(item.id)}
+                        <motion.div onClick={() => toggleOpen(item.id)}
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 * index / 2 }}
                             className="cursor-pointer flex gap-4  items-center bg-purple-800 rounded-xl p-2">
                             <span>
                                 {
@@ -64,7 +68,7 @@ const Weeks = ({ monthId }: { monthId: string }) => {
                             </span>
                             <h1>{item.title}</h1>
                             <p>{item.description}</p>
-                        </div>
+                        </motion.div>
                         <div>{open && <Days weekId={item.id} />}</div>
 
                     </div>
